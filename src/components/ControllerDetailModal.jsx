@@ -1,14 +1,15 @@
-import React from 'react';
+import { useRecoilState } from 'recoil';
+import { monk_data } from '../recoil/atoms';
 
 const ControllerDetailModal = ({ onClose }) => {
-  // recoil을 이용하여 상태관리를 하도록 변경합니다.
-  // useSetRecoilState를 이용하여 전역상태를 업데이트하도록 수정합니다.
-  // handleForm에서 data를 만들고 있습니다. 이 data를 할당해야합니다.
+  const [monkData, setMonkData] = useRecoilState(monk_data);
 
   const handleForm = (e) => {
     e.preventDefault();
 
     const formData = new FormData(e.target);
+    console.log(formData.get('type'));
+
     const data = {
       id: Date.now(),
       type: formData.get('type'),
@@ -16,6 +17,7 @@ const ControllerDetailModal = ({ onClose }) => {
       desc: formData.get('desc'),
       created_at: new Date().toISOString().split('T')[0],
     };
+    setMonkData([...monkData, data]);
     onClose();
   };
   return (
